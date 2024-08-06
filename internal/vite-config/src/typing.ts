@@ -106,6 +106,8 @@ interface ApplicationPluginOptions extends CommonPluginOptions {
   pwa?: boolean;
   /** pwa 插件配置 */
   pwaOptions?: Partial<PwaPluginOptions>;
+  /** 租户id */
+  tenantId?: string;
 }
 
 interface LibraryPluginOptions extends CommonPluginOptions {

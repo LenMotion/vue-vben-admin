@@ -48,8 +48,8 @@ interface HttpResponse<T = any> {
    * 0 means success, others means fail
    */
   code: number;
-  data: T;
-  message: string;
+  msg: string;
+  result: T;
 }
 
 export type {

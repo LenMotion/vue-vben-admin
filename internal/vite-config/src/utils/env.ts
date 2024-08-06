@@ -68,6 +68,7 @@ async function loadAndConvertEnv(
     VITE_BASE,
     VITE_COMPRESS,
     VITE_DEVTOOLS,
+    VITE_GLOB_TENANT_ID,
     VITE_INJECT_APP_LOADING,
     VITE_NITRO_MOCK,
     VITE_PORT,
@@ -89,6 +90,7 @@ async function loadAndConvertEnv(
     nitroMock: VITE_NITRO_MOCK === 'true',
     port: Number(VITE_PORT) || 5173,
     pwa: VITE_PWA === 'true',
+    tenantId: VITE_GLOB_TENANT_ID || '',
     visualizer: VITE_VISUALIZER === 'true',
   };
 }

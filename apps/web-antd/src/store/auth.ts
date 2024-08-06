@@ -5,12 +5,14 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { DEFAULT_HOME_PATH, LOGIN_PATH } from '@vben/constants';
+import { useAppConfig } from '@vben/hooks';
 import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
+import { JSEncrypt } from '@vben/utils';
 
 import { notification } from 'ant-design-vue';
 import { defineStore } from 'pinia';
 
-import { getAccessCodes, getUserInfo, login } from '#/api';
+import { getUserInfo, login } from '#/api';
 import { $t } from '#/locales';
 
 export const useAuthStore = defineStore('auth', () => {
@@ -19,6 +21,11 @@ export const useAuthStore = defineStore('auth', () => {
   const router = useRouter();
 
   const loginLoading = ref(false);
+
+  const { publicKey } = useAppConfig(import.meta.env, import.meta.env.PROD);
+
+  const jsEncrypt = new JSEncrypt();
+  jsEncrypt.setPublicKey(publicKey);
 
   /**
    * 异步处理登录操作
@@ -33,24 +40,23 @@ export const useAuthStore = defineStore('auth', () => {
     let userInfo: null | UserInfo = null;
     try {
       loginLoading.value = true;
-      const { accessToken, refreshToken } = await login(params);
+      const encPwd = jsEncrypt.encrypt(params.password);
+      if (encPwd) {
+        params.password = encPwd;
+      }
+      const { tokenValue } = await login(params);
 
       // 如果成功获取到 accessToken
-      if (accessToken) {
+      if (tokenValue) {
         // 将 accessToken 存储到 accessStore 中
-        accessStore.setAccessToken(accessToken);
-        accessStore.setRefreshToken(refreshToken);
+        accessStore.setAccessToken(tokenValue);
+        // accessStore.setRefreshToken(refreshToken);
 
         // 获取用户信息并存储到 accessStore 中
-        const [fetchUserInfoResult, accessCodes] = await Promise.all([
-          fetchUserInfo(),
-          getAccessCodes(),
-        ]);
-
-        userInfo = fetchUserInfoResult;
+        userInfo = await fetchUserInfo();
 
         userStore.setUserInfo(userInfo);
-        accessStore.setAccessCodes(accessCodes);
+        accessStore.setAccessCodes(userInfo.perms);
 
         if (accessStore.loginExpired) {
           accessStore.setLoginExpired(false);

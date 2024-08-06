@@ -9,12 +9,17 @@ export namespace AuthApi {
 
   /** 登录接口返回值 */
   export interface LoginResult {
-    accessToken: string;
-    desc: string;
-    realName: string;
-    refreshToken: string;
-    userId: string;
-    username: string;
+    isLogin: boolean;
+    loginDevice: string;
+    loginId: any;
+    loginType: string;
+    sessionTimeout: number;
+    tag: string;
+    tokenActiveTimeout: number;
+    tokenName: string;
+    tokenSessionTimeout: number;
+    tokenTimeout: number;
+    tokenValue: string;
   }
 }
 
