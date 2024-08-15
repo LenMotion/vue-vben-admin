@@ -12,7 +12,10 @@ import { message } from 'ant-design-vue';
 
 import { useAuthStore } from '#/store';
 
-const { apiURL } = useAppConfig(import.meta.env, import.meta.env.PROD);
+const { apiURL, tenantId } = useAppConfig(
+  import.meta.env,
+  import.meta.env.PROD,
+);
 
 function createRequestClient(baseURL: string) {
   const client = new RequestClient({
@@ -26,7 +29,7 @@ function createRequestClient(baseURL: string) {
           const accessStore = useAccessStore();
           return {
             refreshToken: `${accessStore.refreshToken}`,
-            token: `${accessStore.accessToken}`,
+            token: `Bearer ${accessStore.accessToken}`,
           };
         },
         unAuthorizedHandler: async () => {
@@ -49,16 +52,18 @@ function createRequestClient(baseURL: string) {
       return {
         // 为每个请求携带 Accept-Language
         'Accept-Language': preferences.app.locale,
+        'Tenant-Id': tenantId,
       };
     },
   });
   client.addResponseInterceptor<HttpResponse>((response) => {
     const { data: responseData, status } = response;
 
-    const { code, data, message: msg } = responseData;
-    if (status >= 200 && status < 400 && code === 0) {
-      return data;
+    const { code, msg, result } = responseData;
+    if (status >= 200 && status < 400 && code === 200) {
+      return result;
     }
+    message.error({ content: msg, key: `error_msg_${status}` });
     throw new Error(`Error ${status}: ${msg}`);
   });
   return client;

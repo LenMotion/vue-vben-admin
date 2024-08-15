@@ -97,7 +97,7 @@ const menus = computed(() => [
 const { loginLoading } = storeToRefs(authStore);
 
 const avatar = computed(() => {
-  return userStore.userInfo?.avatar ?? preferences.app.defaultAvatar;
+  return userStore.userInfo?.avatarUrl ?? preferences.app.defaultAvatar;
 });
 
 const router = useRouter();
@@ -122,10 +122,10 @@ function handleMakeAll() {
     <template #user-dropdown>
       <UserDropdown
         :avatar
+        :description="userStore.userInfo?.email"
         :menus
-        :text="userStore.userInfo?.realName"
-        description="ann.vben@gmail.com"
-        tag-text="Pro"
+        :tag-text="userStore.userInfo?.userCode"
+        :text="userStore.userInfo?.nickName"
         @logout="handleLogout"
       />
     </template>
