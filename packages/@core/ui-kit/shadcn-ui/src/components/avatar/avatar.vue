@@ -28,7 +28,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const text = computed(() => {
-  return props.alt.slice(0, 2).toUpperCase();
+  return props.alt?.slice(0, 2).toUpperCase();
 });
 </script>
 

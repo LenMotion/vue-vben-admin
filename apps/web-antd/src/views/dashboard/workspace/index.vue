@@ -200,7 +200,7 @@ const trendItems: WorkbenchTrendItem[] = [
 <template>
   <div class="p-5">
     <WorkbenchHeader
-      :avatar="userStore.userInfo?.avatar || preferences.app.defaultAvatar"
+      :avatar="userStore.userInfo?.avatarUrl || preferences.app.defaultAvatar"
     >
       <template #title>
         早安, {{ userStore.userInfo?.realName }}, 开始您一天的工作吧！

@@ -97,7 +97,7 @@ const menus = computed(() => [
 const { loginLoading } = storeToRefs(authStore);
 
 const avatar = computed(() => {
-  return userStore.userInfo?.avatar ?? preferences.app.defaultAvatar;
+  return userStore.userInfo?.avatarUrl ?? preferences.app.defaultAvatar;
 });
 
 const router = useRouter();

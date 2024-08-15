@@ -4,7 +4,19 @@ interface BasicUserInfo {
   /**
    * 头像
    */
-  avatar: string;
+  avatarUrl: string;
+  /**
+   * 用户id
+   */
+  id: string;
+  /**
+   * 用户token
+   */
+  nickName: string;
+  /**
+   * 权限
+   */
+  perms: string[];
   /**
    * 用户昵称
    */
@@ -13,10 +25,6 @@ interface BasicUserInfo {
    * 用户角色
    */
   roles?: string[];
-  /**
-   * 用户id
-   */
-  userId: string;
   /**
    * 用户名
    */

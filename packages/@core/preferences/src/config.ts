@@ -17,7 +17,7 @@ const defaultPreferences: Preferences = {
     isMobile: false,
     layout: 'sidebar-nav',
     locale: 'zh-CN',
-    loginExpiredMode: 'modal',
+    loginExpiredMode: 'page',
     name: 'Vben Admin',
     preferencesButtonPosition: 'fixed',
     watermark: false,
